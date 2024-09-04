@@ -110,7 +110,17 @@ The database consists of four primary tables:
 
   Provides an interface to fetch and display customer details via SQL Developer.
 
-### 6. Updating Customer's YTD Sales
+### 6. Fetching All Customers
+- **Function**: `GET_ALLCUST`
+
+  Retrieves a customer details in the format:
+  Custid: [ID] Name: [Name] Status: [Status] SalesYTD: [SalesYTD]
+
+- **Procedure**: `GET_ALLCUST_VIASQLDEV`
+
+  Provides an interface to fetch and display all customer details via SQL Developer.
+
+### 7. Updating Customer's YTD Sales
 
 - **Procedure**: `UPD_CUST_SALESYTD_IN_DB`
 
@@ -120,7 +130,7 @@ The database consists of four primary tables:
 
   Provides an interface to update a customer’s YTD sales via SQL Developer.
 
-### 7. Fetching Product Information
+### 8. Fetching Product Information
 
 - **Function**: `GET_PROD_STRING_FROM_DB`
 
@@ -131,7 +141,17 @@ The database consists of four primary tables:
 
   Provides an interface to fetch and display product details via SQL Developer.
 
-### 8. Updating Product's YTD Sales
+### 9. Fetching All Products
+- **Function**: `GET_ALLPROD_FROM_DB`
+
+  Retrieves all product details in the format:
+  Prodid: [ID] Name: [Name] Price: [Price] SalesYTD: [SalesYTD]
+
+- **Procedure**: `GET_ALLPROD_VIASQLDEV`
+
+  Provides an interface to fetch and display all product details via SQL Developer.
+
+### 10. Updating Product's YTD Sales
 
 - **Procedure**: `UPD_PROD_SALESYTD_IN_DB`
 
@@ -141,7 +161,7 @@ The database consists of four primary tables:
 
   Provides an interface to update a product’s YTD sales via SQL Developer.
 
-### 9. Updating Customer Status
+### 11. Updating Customer Status
 
 - **Procedure**: `UPD_CUST_STATUS_IN_DB`
 
