@@ -171,9 +171,19 @@ The database consists of four primary tables:
 
   Provides an interface to update a customer’s status via SQL Developer.
 
+### 12. Adding Locations
+
+- **Procedure**: `ADD_LOCATION_TO_DB`
+  
+  Adds a location to the database. Validates the location ID and raises an error if the ID, Minimum Quantity, Maximum Quantity or Code Length is out of range .
+
+- **Procedure**: `ADD_LOCATION_VIASQLDEV`
+  
+  Provides an interface to add locations via SQL Developer, handles commit, and outputs success or error messages.
+
 ## Sequences
 
-- **SALE_SEQ**: A sequence used to generate unique `SALEID` values for    the `SALE` table.
+- **SALE_SEQ**: A sequence used to generate unique `SALEID` values for the `SALE` table.
 
 ## Getting Started
 
