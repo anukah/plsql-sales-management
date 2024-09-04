@@ -164,7 +164,7 @@ The database consists of four primary tables:
 ### Installation:
 1. Clone the repository:
  ```bash
- git clone https://github.com/yourusername/sales-management-system.git
+ git clone https://github.com/anukah/sales-management-system.git
 ```
 2. Execute the schema.sql script to create the necessary tables.
 3. Execute the PL/SQL scripts for functions and procedures.
