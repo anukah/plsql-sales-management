@@ -273,3 +273,94 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END UPD_CUST_SALESYTD_VIASQLDEV;
 /
+
+--get custom string for product in database
+CREATE OR REPLACE FUNCTION GET_PROD_STRING_FROM_DB (
+    pprodid NUMBER
+)
+RETURN VARCHAR2
+AS
+    name VARCHAR2(50);
+    price NUMBER(10, 2);
+    sales_ytd NUMBER(10, 2);
+
+BEGIN
+    SELECT PRODUCT.PRODNAME, PRODUCT.SELLING_PRICE, PRODUCT.SALES_YTD
+    INTO name, price, sales_ytd
+    FROM PRODUCT
+    WHERE PRODUCT.PRODID = pprodid;
+
+    RETURN 'Prodid: ' || pprodid || ' Name: ' || name || ' Price: ' || TO_CHAR(price, '999.99') || ' SalesYTD: ' || TO_CHAR(sales_ytd, '99999.99');
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20091, 'Product ID not found');
+    
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20000,SQLERRM);
+END GET_PROD_STRING_FROM_DB;
+/
+
+--get custom string for product in database as dev
+CREATE OR REPLACE PROCEDURE GET_PROD_STRING_VIASQLDEV (
+    pprodid NUMBER
+)
+AS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('--------------------------------------------');
+    DBMS_OUTPUT.PUT_LINE('Getting Details for Prod Id ' || pprodid);
+    DBMS_OUTPUT.PUT_LINE(GET_PROD_STRING_FROM_DB(pprodid));
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END GET_PROD_STRING_VIASQLDEV;
+/
+
+--get sales ytd for product in database
+CREATE OR REPLACE PROCEDURE UPD_PROD_SALESYTD_IN_DB (
+    pprodid NUMBER,
+    pamt NUMBER
+)
+AS
+    rows_updated NUMBER;
+BEGIN
+    IF pamt < -999.99 OR pamt > 999.99 THEN
+        RAISE_APPLICATION_ERROR(-20113, 'Amount out of range');
+    END IF;
+
+    UPDATE PRODUCT
+    SET sales_ytd = sales_ytd + pamt
+    WHERE PRODID = pprodid;
+    
+    rows_updated := SQL%ROWCOUNT;
+    
+    IF rows_updated = 0 THEN
+        RAISE_APPLICATION_ERROR(-20101, 'Product ID not found');
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20000, SQLERRM);
+END UPD_PROD_SALESYTD_IN_DB;
+/
+
+--get sales ytd for product in database as dev
+CREATE OR REPLACE PROCEDURE UPD_PROD_SALESYTD_VIASQLDEV (
+    pprodid NUMBER,
+    pamt NUMBER
+)
+AS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('--------------------------------------------');
+    DBMS_OUTPUT.PUT_LINE('Updating SalesYTD Product Id: ' || pprodid || ' Amount: ' || TO_CHAR(pamt, '9999.99'));
+    UPD_PROD_SALESYTD_IN_DB(pprodid, pamt);
+
+    DBMS_OUTPUT.PUT_LINE('Update OK');
+    COMMIT;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END UPD_PROD_SALESYTD_VIASQLDEV;
+/
