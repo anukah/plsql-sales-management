@@ -57,6 +57,10 @@ The database consists of four primary tables:
 | `CHECK_MAXQTY_RANGE` | Ensures `MAXQTY` is between 0 and 999          |
 | `CHECK_MAXQTY_GREATER_MINQTY` | Ensures `MAXQTY` is greater than or equal to `MINQTY` |
 
+## Sequences
+
+- **SALE_SEQ**: A sequence used to generate unique `SALEID` values for the `SALE` table.
+
 ## PL/SQL Procedures and Functions
 
 ### 1. Adding Customers
@@ -181,9 +185,6 @@ The database consists of four primary tables:
   
   Provides an interface to add locations via SQL Developer, handles commit, and outputs success or error messages.
 
-## Sequences
-
-- **SALE_SEQ**: A sequence used to generate unique `SALEID` values for the `SALE` table.
 
 ## Getting Started
 
