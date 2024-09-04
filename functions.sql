@@ -478,7 +478,7 @@ EXCEPTION
 END ADD_SIMPLE_SALE_VIASQLDEV;
 /
 
--- get total sum of customer sales ytd
+--get total sum of customer sales ytd
 CREATE OR REPLACE FUNCTION SUM_CUST_SALESYTD
 RETURN NUMBER
 AS
@@ -493,7 +493,7 @@ EXCEPTION
 END SUM_CUST_SALESYTD;
 /
 
--- get total sum of customer sales ytd as dev
+--get total sum of customer sales ytd as dev
 CREATE OR REPLACE PROCEDURE SUM_CUST_SALES_VIASQLDEV
 AS
     total_sales NUMBER;
@@ -510,7 +510,7 @@ EXCEPTION
 END SUM_CUST_SALES_VIASQLDEV;
 /
 
--- get total sum of product sales ytd
+--get total sum of product sales ytd
 CREATE OR REPLACE FUNCTION SUM_PROD_SALESYTD_FROM_DB
 RETURN NUMBER
 AS
@@ -525,7 +525,7 @@ EXCEPTION
 END SUM_PROD_SALESYTD_FROM_DB;
 /
 
--- get total sum of product sales ytd as dev
+--get total sum of product sales ytd as dev
 CREATE OR REPLACE PROCEDURE SUM_PROD_SALES_VIASQLDEV
 AS
     total_sales NUMBER;
