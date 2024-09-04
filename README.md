@@ -185,6 +185,35 @@ The database consists of four primary tables:
   
   Provides an interface to add locations via SQL Developer, handles commit, and outputs success or error messages.
 
+### 13. Adding Complex Sale
+
+- **Procedure**: `ADD_COMPLEX_SALE_TO_DB`
+
+  Adds a complex sale, validates customer and product information, calculates sale price, and updates both customer and product sales YTD. Also validates the sale quantity and sale date.
+
+- **Procedure**: `ADD_COMPLEX_SALE_VIASQLDEV`
+
+  Provides an interface to add complex sales via SQL Developer with success or error messages. Handles the sale amount calculation.
+
+### 14. Fetching All Sales
+
+- **Function**: `GET_ALLSALES_FROM_DB`
+
+  Retrieves all sale transactions, including the sale ID, customer ID, product ID, sale date, and sale price.
+
+- **Procedure**: `GET_ALLSALES_VIASQLDEV`
+
+  Provides an interface to fetch and display all sale transactions via SQL Developer.
+
+### 15. Counting Product Sales Within a Time Period
+
+- **Function**: `COUNT_PRODUCT_SALES_FROM_DB`
+
+  Counts the total number of product sales made within a specific number of days from the current date.
+
+- **Procedure**: `COUNT_PRODUCT_SALES_VIASQLDEV`
+
+  Provides an interface to count product sales within a given time period via SQL Developer.
 
 ## Getting Started
 
@@ -197,7 +226,59 @@ The database consists of four primary tables:
  ```bash
  git clone https://github.com/anukah/sales-management-system.git
 ```
-2. Execute the schema.sql script to create the necessary tables.
+2. Execute the schema.sql script given below to create the necessary tables.
+
+```sql
+DROP TABLE SALE CASCADE CONSTRAINTS;
+DROP TABLE PRODUCT CASCADE CONSTRAINTS;
+DROP TABLE CUSTOMER CASCADE CONSTRAINTS;
+DROP TABLE LOCATION CASCADE CONSTRAINTS;
+
+CREATE TABLE CUSTOMER (
+CUSTID	NUMBER
+, CUSTNAME	VARCHAR2(100)
+, SALES_YTD	NUMBER
+, STATUS	VARCHAR2(7)
+, PRIMARY KEY	(CUSTID) 
+);
+
+CREATE TABLE PRODUCT (
+PRODID	NUMBER
+, PRODNAME	VARCHAR2(100)
+, SELLING_PRICE	NUMBER
+, SALES_YTD	NUMBER
+, PRIMARY KEY	(PRODID)
+);
+
+
+CREATE TABLE SALE (
+SALEID	NUMBER
+, CUSTID	NUMBER
+, PRODID	NUMBER
+, QTY	NUMBER
+, PRICE	NUMBER
+, SALEDATE	DATE
+, PRIMARY KEY 	(SALEID)
+, FOREIGN KEY 	(CUSTID) REFERENCES CUSTOMER
+, FOREIGN KEY 	(PRODID) REFERENCES PRODUCT
+);
+
+
+CREATE TABLE LOCATION (
+  LOCID	VARCHAR2(5)
+, MINQTY	NUMBER
+, MAXQTY	NUMBER
+, PRIMARY KEY 	(LOCID)
+, CONSTRAINT CHECK_LOCID_LENGTH CHECK (LENGTH(LOCID) = 5)
+, CONSTRAINT CHECK_MINQTY_RANGE CHECK (MINQTY BETWEEN 0 AND 999)
+, CONSTRAINT CHECK_MAXQTY_RANGE CHECK (MAXQTY BETWEEN 0 AND 999)
+, CONSTRAINT CHECK_MAXQTY_GREATER_MIXQTY CHECK (MAXQTY >= MINQTY)
+);
+
+DROP SEQUENCE SALE_SEQ;
+CREATE SEQUENCE SALE_SEQ;
+```
+
 3. Execute the PL/SQL scripts for functions and procedures.
 
 ### Usage 
