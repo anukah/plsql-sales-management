@@ -215,6 +215,29 @@ The database consists of four primary tables:
 
   Provides an interface to count product sales within a given time period via SQL Developer.
 
+### 16. Deleting Sale
+
+- **Function**: `DELETE_SALE_FROM_DB`
+
+  Deletes the sale record with the smallest `SALEID` in the `SALE` table, updates both customer and product `SALES_YTD` based on the sale amount, and returns the deleted `SALEID`. If no sale exists, raises an exception.
+
+- **Procedure**: `DELETE_SALE_VIASQLDEV`
+
+  Provides an interface to delete the sale with the smallest `SALEID` via SQL Developer, displaying success or error messages. Commits the transaction if successful.
+
+---
+
+### 17. Deleting All Sales
+
+- **Procedure**: `DELETE_ALL_SALES_FROM_DB`
+
+  Deletes all sales records from the `SALE` table and resets the `SALES_YTD` values to zero for all customers and products. Ensures complete deletion and updates.
+
+- **Procedure**: `DELETE_ALL_SALES_VIASQLDEV`
+
+  Provides an interface to delete all sales and reset customer and product `SALES_YTD` via SQL Developer, displaying success or error messages. Commits the transaction if successful.
+
+
 ## Getting Started
 
 ### Prerequisites:
