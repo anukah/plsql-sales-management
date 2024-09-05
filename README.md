@@ -53,8 +53,8 @@ The database consists of four primary tables:
 | `MAXQTY`      | NUMBER      | Maximum Quantity Allowed               |
 | **Constraints** |           |                                        |
 | `CHECK_LOCID_LENGTH` | Ensures `LOCID` is 5 characters long          |
-| `CHECK_MINQTY_RANGE` | Ensures `MINQTY` is between 0 and 999          |
-| `CHECK_MAXQTY_RANGE` | Ensures `MAXQTY` is between 0 and 999          |
+| `CHECK_MINQTY_RANGE` | Ensures `MINQTY` is between 0 and 999         |
+| `CHECK_MAXQTY_RANGE` | Ensures `MAXQTY` is between 0 and 999         |
 | `CHECK_MAXQTY_GREATER_MINQTY` | Ensures `MAXQTY` is greater than or equal to `MINQTY` |
 
 ## Sequences
@@ -63,180 +63,181 @@ The database consists of four primary tables:
 
 ## PL/SQL Procedures and Functions
 
-### 1. Adding Customers
+### 1. Adding and Deleting Customers
 
 - **Procedure**: `ADD_CUST_TO_DB`
   
   Adds a customer to the database. Validates the customer ID and raises an error if the ID is out of range or already exists.
 
-- **Procedure**: `ADD_CUSTOMER_VIASQLDEV`
+- **Procedure**: `DELETE_CUSTOMER`
   
-  Provides an interface to add customers via SQL Developer, handles commit, and outputs success or error messages.
+  Deletes a customer with a matching customer ID. Raises custom exceptions if sales records (child records) exist for the customer.
 
-### 2. Deleting All Customers
-
-- **Function**: `DELETE_ALL_CUSTOMERS_FROM_DB`
+- **Procedure**: `DELETE_ALL_CUSTOMERS_FROM_DB`
   
   Deletes all customer records from the database and returns the number of deleted rows.
+
+- **Procedure**: `ADD_CUSTOMER_VIASQLDEV`
+  
+  Provides an interface to add customers via SQL Developer, displaying success or error messages.
+
+- **Procedure**: `DELETE_CUSTOMER_VIASQLDEV`
+  
+  Provides an interface to delete customers via SQL Developer, displaying success or error messages.
 
 - **Procedure**: `DELETE_ALL_CUSTOMERS_VIASQLDEV`
   
   Calls `DELETE_ALL_CUSTOMERS_FROM_DB` and prints the number of rows deleted.
 
-### 3. Adding Products
+### 2. Adding and Deleting Products
 
 - **Procedure**: `ADD_PRODUCT_TO_DB`
   
   Adds a product to the database with validation on product ID and price range.
 
-- **Procedure**: `ADD_PRODUCT_VIASQLDEV`
+- **Procedure**: `DELETE_PROD_FROM_DB`
   
-  Provides an interface to add products via SQL Developer, handles commit, and outputs success or error messages.
+  Deletes a product with a matching product ID. Raises custom exceptions if sales records (child records) exist for the product.
 
-### 4. Deleting All Products
-
-- **Function**: `DELETE_ALL_PRODUCTS_FROM_DB`
+- **Procedure**: `DELETE_ALL_PRODUCTS_FROM_DB`
   
   Deletes all product records from the database and returns the number of deleted rows.
+
+- **Procedure**: `ADD_PRODUCT_VIASQLDEV`
+  
+  Provides an interface to add products via SQL Developer, displaying success or error messages.
+
+- **Procedure**: `DELETE_PROD_VIASQLDEV`
+  
+  Provides an interface to delete products via SQL Developer, displaying success or error messages.
 
 - **Procedure**: `DELETE_ALL_PRODUCTS_VIASQLDEV`
   
   Calls `DELETE_ALL_PRODUCTS_FROM_DB` and prints the number of rows deleted.
 
-### 5. Fetching Customer Information
+### 3. Fetching and Updating Sales YTD Information
+
+#### Fetching Customer and Product Sales
 
 - **Function**: `GET_CUST_STRING_FROM_DB`
   
   Retrieves a customer’s details in the format:
   Custid: [ID] Name: [Name] Status: [Status] SalesYTD: [SalesYTD]
 
+- **Function**: `GET_PROD_STRING_FROM_DB`
+  
+  Retrieves a product’s details in the format:
+  Prodid: [ID] Name: [Name] Price: [Price] SalesYTD: [SalesYTD]
+
 - **Procedure**: `GET_CUST_STRING_VIASQLDEV`
 
   Provides an interface to fetch and display customer details via SQL Developer.
-
-### 6. Fetching All Customers
-- **Function**: `GET_ALLCUST`
-
-  Retrieves a customer details in the format:
-  Custid: [ID] Name: [Name] Status: [Status] SalesYTD: [SalesYTD]
-
-- **Procedure**: `GET_ALLCUST_VIASQLDEV`
-
-  Provides an interface to fetch and display all customer details via SQL Developer.
-
-### 7. Updating Customer's YTD Sales
-
-- **Procedure**: `UPD_CUST_SALESYTD_IN_DB`
-
-  Updates the `SALES_YTD` for a customer with validation on the amount range.
-
-- **Procedure**: `UPD_CUST_SALESYTD_VIASQLDEV`
-
-  Provides an interface to update a customer’s YTD sales via SQL Developer.
-
-### 8. Fetching Product Information
-
-- **Function**: `GET_PROD_STRING_FROM_DB`
-
-  Retrieves a product’s details in the format:
-  Prodid: [ID] Name: [Name] Price: [Price] SalesYTD: [SalesYTD]
 
 - **Procedure**: `GET_PROD_STRING_VIASQLDEV`
 
   Provides an interface to fetch and display product details via SQL Developer.
 
-### 9. Fetching All Products
-- **Function**: `GET_ALLPROD_FROM_DB`
+#### Updating Sales YTD
 
-  Retrieves all product details in the format:
-  Prodid: [ID] Name: [Name] Price: [Price] SalesYTD: [SalesYTD]
+- **Procedure**: `UPD_CUST_SALESYTD_IN_DB`
 
-- **Procedure**: `GET_ALLPROD_VIASQLDEV`
-
-  Provides an interface to fetch and display all product details via SQL Developer.
-
-### 10. Updating Product's YTD Sales
+  Updates the `SALES_YTD` for a customer with validation on the amount range.
 
 - **Procedure**: `UPD_PROD_SALESYTD_IN_DB`
 
   Updates the `SALES_YTD` for a product with validation on the amount range.
 
+- **Procedure**: `UPD_CUST_SALESYTD_VIASQLDEV`
+
+  Provides an interface to update a customer’s YTD sales via SQL Developer.
+
 - **Procedure**: `UPD_PROD_SALESYTD_VIASQLDEV`
 
   Provides an interface to update a product’s YTD sales via SQL Developer.
 
-### 11. Updating Customer Status
+### 4. Managing Sales Transactions
 
-- **Procedure**: `UPD_CUST_STATUS_IN_DB`
+- **Procedure**: `ADD_SIMPLE_SALE_TO_DB`
 
-  Updates the `STATUS` for a customer with validation on the status value.
-
-- **Procedure**: `UPD_CUST_STATUS_VIASQLDEV`
-
-  Provides an interface to update a customer’s status via SQL Developer.
-
-### 12. Adding Locations
-
-- **Procedure**: `ADD_LOCATION_TO_DB`
-  
-  Adds a location to the database. Validates the location ID and raises an error if the ID, Minimum Quantity, Maximum Quantity or Code Length is out of range .
-
-- **Procedure**: `ADD_LOCATION_VIASQLDEV`
-  
-  Provides an interface to add locations via SQL Developer, handles commit, and outputs success or error messages.
-
-### 13. Adding Complex Sale
+  Adds a simple sale record to the `SALE` table. It first checks if the customer status is 'OK'. The procedure calculates the total sale amount and updates the `SALES_YTD` for both the customer and product.
 
 - **Procedure**: `ADD_COMPLEX_SALE_TO_DB`
 
-  Adds a complex sale, validates customer and product information, calculates sale price, and updates both customer and product sales YTD. Also validates the sale quantity and sale date.
+  Adds a complex sale, validates customer and product information, calculates sale price, and updates both customer and product `SALES_YTD`.
 
-- **Procedure**: `ADD_COMPLEX_SALE_VIASQLDEV`
+- **Procedure**: `DELETE_SALE_FROM_DB`
 
-  Provides an interface to add complex sales via SQL Developer with success or error messages. Handles the sale amount calculation.
-
-### 14. Fetching All Sales
-
-- **Function**: `GET_ALLSALES_FROM_DB`
-
-  Retrieves all sale transactions, including the sale ID, customer ID, product ID, sale date, and sale price.
-
-- **Procedure**: `GET_ALLSALES_VIASQLDEV`
-
-  Provides an interface to fetch and display all sale transactions via SQL Developer.
-
-### 15. Counting Product Sales Within a Time Period
-
-- **Function**: `COUNT_PRODUCT_SALES_FROM_DB`
-
-  Counts the total number of product sales made within a specific number of days from the current date.
-
-- **Procedure**: `COUNT_PRODUCT_SALES_VIASQLDEV`
-
-  Provides an interface to count product sales within a given time period via SQL Developer.
-
-### 16. Deleting Sale
-
-- **Function**: `DELETE_SALE_FROM_DB`
-
-  Deletes the sale record with the smallest `SALEID` in the `SALE` table, updates both customer and product `SALES_YTD` based on the sale amount, and returns the deleted `SALEID`. If no sale exists, raises an exception.
-
-- **Procedure**: `DELETE_SALE_VIASQLDEV`
-
-  Provides an interface to delete the sale with the smallest `SALEID` via SQL Developer, displaying success or error messages. Commits the transaction if successful.
-
----
-
-### 17. Deleting All Sales
+  Deletes the sale record with the smallest `SALEID`, updates both customer and product `SALES_YTD`, and returns the deleted `SALEID`.
 
 - **Procedure**: `DELETE_ALL_SALES_FROM_DB`
 
-  Deletes all sales records from the `SALE` table and resets the `SALES_YTD` values to zero for all customers and products. Ensures complete deletion and updates.
+  Deletes all sales records from the `SALE` table and resets the `SALES_YTD` values to zero for all customers and products.
+
+- **Procedure**: `ADD_SIMPLE_SALE_VIASQLDEV`
+
+  Provides an interface to add a simple sale via SQL Developer, displaying success or error messages.
+
+- **Procedure**: `ADD_COMPLEX_SALE_VIASQLDEV`
+
+  Provides an interface to add a complex sale via SQL Developer, displaying success or error messages.
+
+- **Procedure**: `DELETE_SALE_VIASQLDEV`
+
+  Provides an interface to delete a sale via SQL Developer, displaying success or error messages.
 
 - **Procedure**: `DELETE_ALL_SALES_VIASQLDEV`
 
-  Provides an interface to delete all sales and reset customer and product `SALES_YTD` via SQL Developer, displaying success or error messages. Commits the transaction if successful.
+  Provides an interface to delete all sales via SQL Developer, displaying success or error messages.
 
+### 5. Fetching All Customers and Products
+
+- **Function**: `GET_ALLCUST`
+
+  Retrieves all customer details in the format:
+  Custid: [ID] Name: [Name] Status: [Status] SalesYTD: [SalesYTD]
+
+- **Function**: `GET_ALLPROD_FROM_DB`
+
+  Retrieves all product details in the format:
+  Prodid: [ID] Name: [Name] Price: [Price] SalesYTD: [SalesYTD]
+
+- **Procedure**: `GET_ALLCUST_VIASQLDEV`
+
+  Provides an interface to fetch and display all customer details via SQL Developer.
+
+- **Procedure**: `GET_ALLPROD_VIASQLDEV`
+
+  Provides an interface to fetch and display all product details via SQL Developer.
+
+### 6. Summing Sales YTD
+
+- **Function**: `SUM_CUST_SALESYTD`
+
+  Calculates and returns the total `SALES_YTD` value for all customers from the `CUSTOMER` table.
+
+- **Function**: `SUM_PROD_SALESYTD_FROM_DB`
+
+  Calculates and returns the total `SALES_YTD` value for all products from the `PRODUCT` table.
+
+- **Procedure**: `SUM_CUST_SALES_VIASQLDEV`
+
+  Provides an interface to display the total `SALES_YTD` for all customers via SQL Developer.
+
+- **Procedure**: `SUM_PROD_SALES_VIASQLDEV`
+
+  Provides an interface to display the total `SALES_YTD` for all products via SQL Developer.
+
+### 7. Managing Location Information
+
+- **Procedure**: `ADD_LOCATION_TO_DB`
+  
+  Adds a location to the database with validation on location code and quantity ranges.
+
+- **Procedure**: `ADD_LOCATION_VIASQLDEV`
+  
+  Provides an interface to add locations via SQL Developer, displaying success or error messages.
+
+---
 
 ## Getting Started
 

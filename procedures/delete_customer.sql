@@ -1,0 +1,41 @@
+CREATE OR REPLACE PROCEDURE DELETE_CUSTOMER (
+    pCustid NUMBER
+)
+AS
+    e EXCEPTION;
+    PRAGMA EXCEPTION_INIT(e, -2292);
+BEGIN
+    DELETE FROM CUSTOMER
+    WHERE CUSTID = pCustid;
+
+    IF SQL%ROWCOUNT = 0 THEN
+        RAISE_APPLICATION_ERROR(-20291, 'Customer ID not found');
+    END IF;
+
+EXCEPTION
+    WHEN e THEN
+        RAISE_APPLICATION_ERROR(-20303, 'Customer cannot be deleted as sales exist');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20000, 'Error: ' || SQLERRM);
+END DELETE_CUSTOMER;
+/
+
+CREATE OR REPLACE PROCEDURE DELETE_CUSTOMER_VIASQLDEV (
+    pCustid NUMBER
+)
+AS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('--------------------------------------------');
+    DBMS_OUTPUT.PUT_LINE('Deleting Customer. Cust Id: ' || pCustid);
+
+    DELETE_CUSTOMER(pCustid);
+
+    DBMS_OUTPUT.PUT_LINE('Deleted Customer OK.');
+
+    COMMIT;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END DELETE_CUSTOMER_VIASQLDEV;
+/
